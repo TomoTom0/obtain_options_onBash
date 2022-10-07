@@ -43,7 +43,7 @@ EOF
 
     declare -a _allArgs=($@)
 
-    __obtain_options_simple _allArgs _flagsAll _flagsArgDict _argc _kwargs _flagsIn
+    __obtain_options _allArgs _flagsAll _flagsArgDict _argc _kwargs _flagsIn
 
     if [[ " ${!flagsIn[@]} " =~ " help " ]]; then
         __usage
