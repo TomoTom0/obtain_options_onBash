@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#alias __obtain_options=__obtain_options_complex
+#alias __obtain_options=__obtain_options_simple
 function __obtain_options() {
     ## obtain options simple
     # ---------------------
@@ -38,7 +38,6 @@ function __obtain_options() {
                 flagArg=false
                 flagIsLong=false
                 flag_id=""
-                echo $arg $flag
                 [[ "${#flag}" -eq 1 && ! "${arg}x" =~ ^-- && "$arg" =~ $flag ]]; echo $?
                 # long flag -> complete match
                 if [[ "${#flag}" -gt 1 && "${arg}x" =~ ^-- && "$arg" == $flag ]]; then
@@ -93,8 +92,8 @@ function __obtain_options_complex() {
     ##     obtain options
     # ---------------------
 
-    function __usage() {
-        cat <<EOF
+
+        cat <<EOF > /dev/null
 Usage: ${FUNCNAME[1]} allArgs flagsAll flagsArgDict argc kwargs flagsIn
 
 Options
@@ -103,9 +102,6 @@ Options
 
 --allowHyphen
     allow arguments after specific options start with hyphen
-
--h,--help
-    show this message
 
 ----- Example
 # argument settings
@@ -129,13 +125,9 @@ declare -a allArgs=(\$@)
 
 ${FUNCNAME[1]} allArgs flagsAll flagsArgDict argc kwargs flagsIn
 EOF
-        return 0
-    }
 
     # arguments settings
     declare -A _flagsAll=(
-        ["h"]="help"
-        ["--help"]="help"
         ["--ignoreUnknown"]="ignoreUnknown"
         ["--allowHyphen"]="allowHyphen"
     )
@@ -151,10 +143,10 @@ EOF
 
     __obtain_options_simple _allArgs _flagsAll _flagsArgDict _argc _kwargs _flagsIn
 
-    if [[ " ${!flagsIn[@]} " =~ " help " ]]; then
-        __usage
-        return 0
-    fi
+    #if [[ " ${!flagsIn[@]} " =~ " help " ]]; then
+    #    __usage
+    #    return 0
+    #fi
 
     # ---------------------
     ##         main
